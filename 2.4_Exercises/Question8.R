@@ -22,14 +22,12 @@ ref10 = college[,1:10]
 pairs(ref10)
 
 # Boxplot
-attach(college) 							# saves accessing vars via college$Private
-plot(Private, Outstate)						# plot() will boxplot if its x arg is qualitative
+attach(college)				# saves accessing vars via college$Private
+plot(Private, Outstate)		# plot() will boxplot if its x arg is qualitative
 
-# "Top10perc" is binned to create "Elite" 
-# as the group of unis where more than 
-# 50% of students were from their 
-# high school's top 10%.
-Elite = rep("No", nrow(college))			# replicates values
+# "Top10perc" is binned to create "Elite" as the group of unis where more than 
+# 50% of students were from their high school's top 10%.
+Elite = rep("No", nrow(college))	# replicates values
 Elite[college$Top10perc > 50] = "Yes"
 
 Elite = as.factor(Elite)
@@ -39,7 +37,6 @@ plot(Elite, Outstate)
 
 # Histograms
 par(mfrow=c(2,2))
-# Percent of faculty with Ph.D.'s
 hist(PhD)
 hist(Grad.Rate)
 hist(Top10perc)
