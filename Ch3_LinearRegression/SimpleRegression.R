@@ -40,10 +40,11 @@ plot(lstat, medv, pch = "+")
 plot(1:20, 1:20, pch = 1:20)          # plot chars 1:20 plotted
 
 
-# Residuals plots
+# Diagnostic plots
 par(mfrow = c(2, 2))
 plot(lm.fit)          
 
+# Further residuals plots
 plot(predict(lm.fit), residuals(lm.fit))  # residuals from a lin fit
 plot(predict(lm.fit), rstudent(lm.fit))   # studentized residuals
 
