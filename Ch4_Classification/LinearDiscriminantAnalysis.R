@@ -43,7 +43,7 @@ names(lda.pred)
     # 2. 'posterior', is a matrix whose kth column contains the posterior probability
                     # that the corresponding observation belongs to the kth class, computed from 4.10.
     # 3. x contains the linear discriminants.
- 
+
 lda.class = lda.pred$class
 table(lda.class, Direction.2005)
 mean(lda.class == Direction.2005) 
