@@ -33,7 +33,7 @@ nonSignifPreds # ==> "chas"
     # banks of the Charles River, produces a model that cannot reject the null 
     # hypothesis: that there is no significant association with crime.
 
-chasIndex = which(allPreds %in% "chas")
+chasIndex <- which(allPreds %in% "chas")
 pVals[chasIndex] # ==> 0.209
     # As the P-value for "chas" falls well outside of our chosen alpha of 0.05,
     # our linear model cannot conclude that Charles River bank areas have an 
@@ -41,12 +41,12 @@ pVals[chasIndex] # ==> 0.209
 
 
 # Proportion of non-retail business acres per town.
-indusIndex = which(allPreds %in% "indus")
+indusIndex <- which(allPreds %in% "indus")
 coef(simples[[indusIndex]])[2] # ==> B1 = 0.5097763
 pVals[indusIndex] # ==> 1.45e-21
     # There appears to be a positive association with the proportion of 
     # non-retail business acres per town and per-capita crime rate.
-    # That is, industrial areas may be less safer to live in.
+    # That is, industrial areas may be less safe to live in.
 
 par(mfrow = c(2, 2))
 plot(simples[[indusIndex]])
@@ -57,7 +57,7 @@ plot(simples[[indusIndex]])
 
 
 # Average number of rooms per dwelling.
-rmIndex = which(allPreds %in% "rm")
+rmIndex <- which(allPreds %in% "rm")
 coef(simples[[rmIndex]])[2] # ==> B1 = -2.684051
 pVals[rmIndex] # ==> 6.35e-07
     # There appears to be a steeper negative association with the average
@@ -71,7 +71,7 @@ plot(simples[[rmIndex]])
 
 
 # Weighted mean of distances to five Boston employment centres.
-disIndex = which(allPreds %in% "dis")
+disIndex <- which(allPreds %in% "dis")
 coef(simples[[disIndex]])[2] # ==> B1 = -1.550902
 pVals[disIndex] # ==> 8.52e-19
     # There appears to be a negative association with the weighted mean
@@ -87,7 +87,7 @@ plot(simples[[disIndex]])
 
 # b) ***************************************************************************
 
-lm.multi = lm(crim ~ ., data = Boston)
+lm.multi <- lm(crim ~ ., data = Boston)
 pValsMulti <- coef(summary(lm.multi))[-1,4]
 signifPredsMulti <- pValsMulti[pValsMulti < alpha]
 signifPredsMulti
@@ -119,8 +119,8 @@ plot(uniVCoefs, multiVCoefs)
 
 # d) ***************************************************************************
 
-allQuantPreds = allPreds[allPreds != "chas"]
-numQuantPreds = length(allQuantPreds)
+allQuantPreds <- allPreds[allPreds != "chas"]
+numQuantPreds <- length(allQuantPreds)
 polys <- vector(mode = "list", length = numQuantPreds)
 signifPredsPoly <- vector(mode = "list", length = numQuantPreds)
 
