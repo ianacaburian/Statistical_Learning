@@ -34,7 +34,7 @@ nonSignifPreds # ==> "chas"
     # hypothesis: that there is no significant association with crime.
 
 chasIndex <- which(allPreds %in% "chas")
-pVals[chasIndex] # ==> 0.209
+pVals[chasIndex] # ==> P = 0.209
     # As the P-value for "chas" falls well outside of our chosen alpha of 0.05,
     # our linear model cannot conclude that Charles River bank areas have an 
     # association with crime rate per-capita.
@@ -43,7 +43,7 @@ pVals[chasIndex] # ==> 0.209
 # Proportion of non-retail business acres per town.
 indusIndex <- which(allPreds %in% "indus")
 coef(simples[[indusIndex]])[2] # ==> B1 = 0.5097763
-pVals[indusIndex] # ==> 1.45e-21
+pVals[indusIndex] # ==> P = 1.45e-21
     # There appears to be a positive association with the proportion of 
     # non-retail business acres per town and per-capita crime rate.
     # That is, industrial areas may be less safe to live in.
@@ -52,19 +52,18 @@ par(mfrow = c(2, 2))
 plot(simples[[indusIndex]])
     # The nature of the relationship may not be simply linear.
     # The residuals vs fitted plot displays a non-random pattern around 0 and 
-    # the Q-Q plot shows signs or nonlinearity.
+    # the Q-Q plot shows signs of nonlinearity.
     # The general appearance of these plots suggests a better model is needed.
 
 
 # Average number of rooms per dwelling.
 rmIndex <- which(allPreds %in% "rm")
 coef(simples[[rmIndex]])[2] # ==> B1 = -2.684051
-pVals[rmIndex] # ==> 6.35e-07
+pVals[rmIndex] # ==> P = 6.35e-07
     # There appears to be a steeper negative association with the average
     # number of rooms in a house and per-capita crime rate.
     # That is, housing that implies higher income may affect crime rate.
 
-par(mfrow = c(2, 2))
 plot(simples[[rmIndex]])
     # The residuals vs fitted plot has a slightly more random pattern than that
     # of indus. The Q-Q plot however shows similar nonlinearity.
@@ -73,13 +72,12 @@ plot(simples[[rmIndex]])
 # Weighted mean of distances to five Boston employment centres.
 disIndex <- which(allPreds %in% "dis")
 coef(simples[[disIndex]])[2] # ==> B1 = -1.550902
-pVals[disIndex] # ==> 8.52e-19
+pVals[disIndex] # ==> P = 8.52e-19
     # There appears to be a negative association with the weighted mean
     # distances to five Boston employment centres and per-capita crime rate.
     # That is, distributing the location of employment resources may affect
     # an area's crime rate.
 
-par(mfrow = c(2, 2))
 plot(simples[[disIndex]])
     # Similar to indus, the residuals suggests an improvement may be possible 
     # with a more flexible model, or one with multiple predictors.
