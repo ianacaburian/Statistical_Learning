@@ -1,43 +1,56 @@
-rm(list=ls(all=TRUE))
-setwd("C:/GitRepos/Statistical_Learning/2.4_Exercises")
+# a) ***************************************************************************
 
-# a)
-college = read.csv("College.csv")
+# setwd()
+college <- read.csv("College.csv")
 
-# b)
+
+# b) ***************************************************************************
+
 # Adjusting data to recognize row names.
 fix(college)
-rownames(college) = college[,1]
+rownames(college) <- college[,1]
 fix(college)
-college = college[,-1]
+college <- college[,-1]
 fix(college)
 
-# c)
+
+# c) ***************************************************************************
+
 # Summary and pairs plot.
+# i.
 summary(college)
-pairs(college)
 
-# Reference the first ten cols of college
-ref10 = college[,1:10]
+# ii.
+pairs(college)
+ref10 <- college[,1:10] # Reference the first ten cols of college
 pairs(ref10)
 
 # Boxplot
-attach(college)				# saves accessing vars via college$Private
-plot(Private, Outstate)		# plot() will boxplot if its x arg is qualitative
+# iii.
+attach(college)
+plot(Private, Outstate)
 
-# "Top10perc" is binned to create "Elite" as the group of unis where more than 
-# 50% of students were from their high school's top 10%.
-Elite = rep("No", nrow(college))	# replicates values
-Elite[college$Top10perc > 50] = "Yes"
+# Binning
+# iv.
+Elite <- rep("No", nrow(college))	
+Elite[college$Top10perc > 50] <- "Yes"
+Elite <- as.factor(Elite)
+    # "Top10perc" is binned, creating a group of unis where more than 50% of 
+    # students were from their high school's top 10%.
 
-Elite = as.factor(Elite)
-college = data.frame(college, Elite)
+college <- data.frame(college, Elite)
 summary(college)
 plot(Elite, Outstate)
 
 # Histograms
-par(mfrow=c(2,2))
+# v.
+par(mfrow = c(2, 4))
+hist(Accept)
 hist(PhD)
-hist(Grad.Rate)
 hist(Top10perc)
+hist(Room.Board)
+
+hist(Enroll)
+hist(Terminal)
 hist(Top25perc)
+hist(Personal)

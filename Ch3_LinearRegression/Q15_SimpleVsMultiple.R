@@ -9,7 +9,7 @@ numPreds <- length(allPreds)
 
 simples <- vector(mode = "list", length = numPreds)
 pVals <- c()
-alpha = 0.05
+alpha <- 0.05
 signifPreds <- c()
 
 for (i in 1:numPreds)
