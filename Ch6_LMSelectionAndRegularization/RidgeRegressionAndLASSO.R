@@ -118,7 +118,30 @@ predict(out, type = "coefficients", s = bestlambda)[1:20,]
     # perform variable selection.
 #_______________________________________________________________________________
 
+
 # The Lasso
+
+lasso.mod <- glmnet(x[train,], y[train], alpha = 1, lambda = grid)
+    # alpha = 1 is selected to fit a lasso model.
+plot(lasso.mod)
+set.seed(1)
+cv.out <- cv.glmnet(x[train,], y[train], alpha = 1)
+plot(cv.out)
+    # Depending on the choise of tuning parameter, some of the coefficients 
+    # will be exactly equal to 0.
+
+bestlambda <- cv.out$lambda.min
+lasso.pred <- predict(lasso.mod, s= bestlambda, newx = x[test,])
+mean((lasso.pred - y.test)^2) #=> 100743
+    # Much lower than the test set MSE of the null model and OLS.
+    # Very similar to that found using ridge regression with CV chosen lambda.
+
+out <- glmnet(x, y, alpha = 1, lambda = grid)
+lasso.coef = predict(out, type = "coefficients", s = bestlambda)[1:20,]
+lasso.coef
+    # However, lasso has a substantial advantage over ridge regression in
+    # that the resulting coefficient estimates are sparse. The resulting lasso
+    # model consists of only 7 vars.
 
 
 
