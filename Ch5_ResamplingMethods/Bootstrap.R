@@ -1,4 +1,5 @@
 library(ISLR)
+library(boot)
 # Estimating the Accuracy of a Statistic of Interest
 
 # alpha.fn() takes as input the (X, Y) data as well as a vector indicating which
