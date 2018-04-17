@@ -80,7 +80,7 @@ cv.error2 #> 5.890979 1.086596 1.102585 1.114772
 
 # g)
 summary(glm.fit)
-alpha <- rep(0.05, 4)
+alpha <- rep(0.05, npoly)
 summary(glm.fit)$coefficients[-1, 4] < alpha
     # poly(x, i)1 poly(x, i)2 poly(x, i)3 poly(x, i)4 
     #        TRUE        TRUE       FALSE       FALSE 

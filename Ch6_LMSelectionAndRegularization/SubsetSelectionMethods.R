@@ -15,8 +15,11 @@ library(leaps) # to use regsubsets()
 regfit.full <- regsubsets(Salary ~ ., Hitters)
     # identifies the model with the best RSS.
 summary(regfit.full)
+    # summary() outputs the best set of variables for each model size.
+    # An asterisk indicates that a given variable is included in the
+    # corresponding model.
 
-# Fit up to a 19-variable model using nvmax
+# Fit up to a 19-variable model using nvmax = 19
 regfit.full <- regsubsets(Salary ~ ., data = Hitters, nvmax = 19)
 reg.summary = summary(regfit.full)
 names(reg.summary)
@@ -68,7 +71,6 @@ summary(regfit.fwd)
 regfit.bwd = regsubsets(Salary ~ ., data = Hitters, nvmax = 19, 
                         method = "backward")
 summary(regfit.bwd)
-
 
 coef(regfit.full, 7)
 coef(regfit.fwd, 7)
