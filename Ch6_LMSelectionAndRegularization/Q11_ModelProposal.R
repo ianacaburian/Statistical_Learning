@@ -8,7 +8,7 @@ sum(is.na(Boston)) #> 0
 
 x.all <- model.matrix(crim ~ ., data = Boston)
 y.all <- Boston$crim 
-testMSEs <- rep(0, 7)
+testMSEs <- rep(0, 5)
 
 # a)
 #_______________________________________________________________________________
@@ -46,63 +46,13 @@ for (j in 1:k)
 mean.cv.errors <- apply(cv.errors, 2, mean)
 best.model <- which.min(mean.cv.errors) #> 9
 par(mfrow = c(1, 1))
-plot(mean.cv.errors, type = 'b')
+plot(mean.cv.errors, type = 'b', xlab = "Number of Variables")
     # We see that CV selects a 9-var model.
+coef(best.fit, id = 9)
+    # Variables: zn, indus, nox, dis, rad, ptratio, black, lstat, medv.
 
 testMSEs[1] <- mean.cv.errors[best.model] 
 testMSEs[1] #> 43.47287
-#_______________________________________________________________________________
-
-
-# Forward Stepwise Selection.
-
-cv.errors <- matrix(NA, k, p, dimnames = list(NULL, paste(1:p)))
-
-for (j in 1:k)
-{
-    fwd.fit <- regsubsets(crim ~ ., data = Boston[folds != j,], nvmax = p,
-                           method = "forward")
-    for (i in 1:p)
-    {
-        pred <- predict(fwd.fit, Boston[folds == j,], id = i)
-        cv.errors[j, i] <- mean((y.all[folds == j] - pred)^2)
-    }
-}
-
-mean.cv.errors <- apply(cv.errors, 2, mean)
-best.model <- which.min(mean.cv.errors) #> 13
-par(mfrow = c(1, 1))
-plot(mean.cv.errors, type = 'b')
-    # We see that CV selects a 13-var model.
-
-testMSEs[2] <- mean.cv.errors[best.model] 
-testMSEs[2] #> 43.52076
-#_______________________________________________________________________________
-
-
-# Backward Stepwise Selection.
-
-cv.errors <- matrix(NA, k, p, dimnames = list(NULL, paste(1:p)))
-
-for (j in 1:k)
-{
-    bwd.fit <- regsubsets(crim ~ ., data = Boston[folds != j,], nvmax = p,
-                           method = "backward")
-    for (i in 1:p)
-    {
-        pred <- predict(bwd.fit, Boston[folds == j,], id = i)
-        cv.errors[j, i] <- mean((y.all[folds == j] - pred)^2)
-    }
-}
-
-mean.cv.errors <- apply(cv.errors, 2, mean)
-best.model <- which.min(mean.cv.errors) #> 13
-par(mfrow = c(1, 1))
-plot(mean.cv.errors, type = 'b')
-    # We see that CV selects a 13-var model.
-
-testMSEs[3] <- mean.cv.errors[best.model] 
-testMSEs[3] #> 43.52076
 #_______________________________________________________________________________
 
 
@@ -126,8 +76,8 @@ bestRidgeLambda #> 0.7908625
 grid = 10^seq(10, -2, length = 100)
 ridge.mod <- glmnet(x[train, ], y[train], alpha = 0, lambda = grid, thresh = 1e-12)
 ridge.pred <- predict(ridge.mod, s = bestRidgeLambda, newx = x[test, ])
-testMSEs[4] <- mean((ridge.pred - y.test)^2)
-testMSEs[4] #> 38.36587
+testMSEs[2] <- mean((ridge.pred - y.test)^2)
+testMSEs[2] #> 38.36587
 #_______________________________________________________________________________
 
 
@@ -142,8 +92,8 @@ plot(cv.out)
 bestLassoLambda <- cv.out$lambda.min
 bestLassoLambda #> 0.09979553
 lasso.pred <- predict(lasso.mod, s = bestLassoLambda, newx = x[test,])
-testMSEs[5] <- mean((lasso.pred - y.test)^2) 
-testMSEs[5] #> 38.3096
+testMSEs[3] <- mean((lasso.pred - y.test)^2) 
+testMSEs[3] #> 38.3096
 
 out <- glmnet(x, y, alpha = 1, lambda = grid)
 lasso.coef <- predict(out, type = "coefficients", s = bestLassoLambda)
@@ -162,8 +112,8 @@ summary(pcr.fit)
 
 M <- 13
 pcr.pred <- predict(pcr.fit, x[test,], ncomp = M)
-testMSEs[6] <- mean((pcr.pred - y.test) ^2)
-testMSEs[6] #> 39.27592
+testMSEs[4] <- mean((pcr.pred - y.test) ^2)
+testMSEs[4] #> 39.27592
 #_______________________________________________________________________________
 
 
@@ -181,33 +131,12 @@ summary(pls.fit)
 
 M <- 10
 pls.pred <- predict(pls.fit, x[test,], ncomp = M)
-testMSEs[7] <- mean((pls.pred - y.test)^2) 
-testMSEs[7] #> 39.26028
+testMSEs[5] <- mean((pls.pred - y.test)^2) 
+testMSEs[5] #> 39.26028
 #_______________________________________________________________________________
 
 
 # b)
 
-testMSEs #> 43.47287 43.52076 43.52076 38.36587 38.30960 39.27592 39.26028
-    # According to the corresponding test MSE, the best model appears to be
-    # obtained by the lasso.
-    # The second lowest test MSE comes from the model obtained by ridge
-    # regression which consists of all variables.
+testMSEs #> 43.47287 38.36587 38.30960 39.27592 39.26028
 #_______________________________________________________________________________
-
-
-# c)
-    # The methods that yield sparse models eliminated up to 6 variables in the
-    # best subset selection method and 2 variables in the lasso method.
-    # The model obtained by the lasso model is therefore chosen as it not only
-    # performs the best in terms of test MSE, but is also more interpretable
-    # than most of the other models due to its reduced number of variables.
-
-    # The reason that the lasso method has performed variable selection is 
-    # because there exists a lambda where a region of constant RSS intersects 
-    # with the polytope shaped constraint region where the coefficient for tax 
-    # and age equal 0.
-
-
-
-
