@@ -8,10 +8,12 @@ attach(Weekly)
 
 # a)
 glm.fit1 <- glm(Direction ~ Lag1 + Lag2, data = Weekly, family = binomial)
+summary(glm.fit1)
 
 # b)
 nMinusn1 <- Weekly[-1, ]
 glm.fit2 <- glm(Direction ~ Lag1 + Lag2, data = nMinusn1, family = binomial)
+summary(glm.fit2)
 
 # c)
 glm.probs <- predict(glm.fit2, newdata = Weekly[1, ], type = "response")
