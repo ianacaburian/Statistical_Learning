@@ -30,9 +30,9 @@ for(i in 1:n)
     glm.probs <- predict(glm.fit, newdata = Weekly[i, ], type = "response")
     errors[i] <- as.integer((glm.probs > 0.5) != (Weekly[i, ]$Direction == "Up"))
 }
-errors
-numErrors <- sum(errors)
-LOOCVTestErrorEstimate <- mean(errors)
 
+# e)
+numErrors <- sum(errors)
 numErrors #> 490
+LOOCVTestErrorEstimate <- mean(errors)
 LOOCVTestErrorEstimate #> 44.99541% error rate
