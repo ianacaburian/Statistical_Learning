@@ -29,8 +29,10 @@ k <- 10
 p <- ncol(Boston) - 1
 set.seed(1)
 folds = sample(rep(1:k, length = nrow(Boston)))                      
-    # Text book uses replace = TRUE here, which was found to be incorrect as 
-    # it results in unequal fold sizes.
+    # Text book uses replace = TRUE here, however it also stresses that folds
+    # must be the same size and non-overlapping. Therefore, the default 
+    # replace = FALSE is used.
+
 cv.errors <- matrix(NA, k, p, dimnames = list(NULL, paste(1:p)))
 
 for (j in 1:k)
