@@ -1,0 +1,34 @@
+Description of FleeceWeight data.
+
+
+[SEX] 			:Sex of lamb (1:male, 2:female)
+
+[BT ]			:Birth typ of lamb ( 1:single, 2:twin, 3:triplet, ...)
+
+[SPINFINE] 		:Spine fineness score of the wool
+
+[yWool] 		:Yearling wool production of lamb(kg)
+
+[yearlingAGE] 		:Age of lamb at first recording(days)
+
+[AdultAge]   		:Age of Lamb when adult (days)
+
+[Dag]  			:Dag Score of animal(Integer score 1:5)
+
+[CCov] 			:Cruch cover Score of animal(Integer score 1:5)
+
+[BDWR] 			:Body Wrinkle Score of animal (Integer score 1:5)
+
+[Pregnancy] 		:Pregnancy statuse of animal (0:non-pregnant, 1:single baring, 2:twin baring etc..)
+
+[BCS] 			:Body Condition Score of animal (Double value 1:5)
+
+[Weight]  		:Weight of sheep Of Sheep(kg)
+
+[DryWt] 		:Pasture Dry Weight (kg/ha), a measure of food availability for lamb
+
+[Rain] 			:Amount of rain fall (mm/m2)
+
+[Temp] 			:Temperature (Celcius)
+
+[AdultWool]		:Adult wool production (kg)
