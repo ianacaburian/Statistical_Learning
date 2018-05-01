@@ -1,6 +1,9 @@
 library(randomForest)
+library(tree)
+library(MASS)
 set.seed(1)
 train <- sample(1:nrow(Boston), nrow(Boston) / 2)
+boston.test <- Boston[-train, "medv"]
 tree.boston <- tree(medv ~ ., Boston, subset = train)
 #______________________________________________________________________________
  
