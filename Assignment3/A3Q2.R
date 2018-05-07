@@ -1,22 +1,53 @@
 library(e1071)
+load("datacens.Rdata")
 
+# Inspect the data.
 str(datacens$train) # Table 3
 sd(datacens$train$age) # Table 4
 sd(datacens$train$hr_per_week) # Table 4
 mean(datacens$train$age) # Table 4
 mean(datacens$train$hr_per_week) # Table 4
 
-svmfit <- svm(income ~ ., data = datacens$train[1:10000,], kernel = "radial",
+# Partition the data to avoid excessive completion time.
+set.seed(330)
+train <- sample(nrow(datacens$train), 500)
+
+svmfit <- svm(income ~ ., data = datacens$train[train,], kernel = "radial",
               scale = F)
 ypred <- predict(svmfit, datacens$val)
 table(predict = ypred, truth = datacens$val$income) # Table 5
-(308 + 1263) / nrow(datacens$val)
-# 17.557%
+(263 + 1860) / nrow(datacens$val)
+# 23.73%
 
-svmfitsc <- svm(income ~ ., data = datacens$train[1:10000,], kernel = "radial",
+svmfitsc <- svm(income ~ ., data = datacens$train[train,], kernel = "radial",
                 scale = T)
 ypredsc <- predict(svmfitsc, datacens$val)
 table(predict = ypredsc, truth = datacens$val$income) # Table 5
-(351 + 1054) / nrow(datacens$val)
-# 15.70%
+(311 + 1216) / nrow(datacens$val)
+# 17.07%
 
+tune.out <- tune(svm, income ~ ., data = datacens$train[train,], kernel = "radial",
+                 ranges = list(cost = c(0.1, 1, 10, 100, 1000),
+                               gamma = c(0.5, 1, 2, 3, 4)))
+summary(tune.out)
+# best cost = 100, gamma = 0.5
+
+svmbestfit <- svm(income ~ ., data = datacens$train, kernel = "radial",
+                  scale = T, cost = 100, gamma = 0.5)
+ypredtrain <- predict(svmbestfit, datacens$train)
+table(predict = ypredtrain, truth = datacens$train$income)
+#>        truth
+#> predict     0     1
+#>       0 15449   966
+#>       1   538  4261
+(538 + 966) / nrow(datacens$train)
+# 7.09%
+
+ypredtest <- predict(svmbestfit, datacens$val)
+table(predict = ypredtest, truth = datacens$val$income)
+#>        truth
+#> predict    0    1
+#>       0 5967  954
+#>       1  700 1327
+(700 + 954) / nrow(datacens$val)
+# 18.48%
