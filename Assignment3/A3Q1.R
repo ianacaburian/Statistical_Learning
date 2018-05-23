@@ -24,7 +24,6 @@ testMSE = function(yhat)
 
 # Fit initial regression tree
 tree.init <- tree(quality ~ ., Wine, subset = train)
-summary(tree.init) # Table 1
 plot(tree.init) # Figure 1
 text(tree.init, pretty = 0)
 
@@ -112,6 +111,6 @@ mse.compare[3] <- mse.forest[which.min(mse.forest)]
 barplot(mse.compare, ylab = "Test MSE", xlab = "Model") # Figure 5
 
 # Variable analyses of the ensemble models.
-summary(tree.boost) # Table 2 and Figure 6
+summary(tree.boost) # Table 5 and Figure 6
 varImpPlot(tree.bag) # Figure 7
 varImpPlot(tree.forest) # Figure 8

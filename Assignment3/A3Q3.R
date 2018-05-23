@@ -1,12 +1,6 @@
 library(neuralnet)
 fleeceweight <- read.csv("FleeceWeight.csv")
 str(fleeceweight)
-#   According to wools.txt, the following vars should be factored:
-#   SEX, BT, Pregnancy
-#fleeceweight$SEX <- as.factor(fleeceweight$SEX)
-#fleeceweight$BT <- as.factor(fleeceweight$BT)
-#fleeceweight$Pregnancy <- as.factor(fleeceweight$Pregnancy)
-str(fleeceweight)
 
 # Standardize features.
 normalize <- function(x) {
@@ -18,11 +12,7 @@ normalize <- function(x) {
     }    
 }
 fleeceweight_norm <- as.data.frame(lapply(fleeceweight, normalize))
-str(fleeceweight_norm)
-
-# Encode factors with dummy vars.
-#matf <- as.formula(paste("~", paste(names(fleeceweight), collapse = " + ")))
-#fleeceweight_mat <- model.matrix(matf, data = fleeceweight_norm)
+str(fleeceweight_norm) # Confirm standardization.
 
 # Partition the data into 75% training, 25% testing sets.
 fleeceweight_train <- fleeceweight_norm[1:3000,]
@@ -45,11 +35,11 @@ for (i in 1:8) {
 }
 model_cors
 #> [1] 0.8691455268 0.8975236002 0.9078753080 0.9093134044 0.9188200338
-#> [6] 0.9202633249 0.9230829551 0.9211179594>
+#> [6] 0.9202633249 0.9230829551 0.9211179594
 
 # Plot of the single hidden unit neural net.
-plot(models[[1]]) # Figure 9
+plot(models[[1]]) # Figure 10
 
 # Plot of the correlation coefficient obtained by each neural net.
 plot(model_cors, type = "l",
-     ylab = "Correlation Coefficient", xlab = "Hidden Units") #> Figure 10
+     ylab = "Correlation Coefficient", xlab = "Hidden Units") #> Figure 11
