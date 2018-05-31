@@ -1,4 +1,3 @@
-setwd("C:/GitRepos/Statistical_Learning/Assignment4")
 load("sn.Rdata")
 p <- dim(sn)[2]
 words <- sn[, 4:p]
